@@ -1,4 +1,4 @@
-name: (disabled) deploy-retype-ssh
+name: (disabled)
 
 on:
   workflow_dispatch:

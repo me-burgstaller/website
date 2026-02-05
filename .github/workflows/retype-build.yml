@@ -45,6 +45,8 @@ jobs:
           host: w01c4ca9.kasserver.com
           username: ssh-w02125c1
           key: ${{ secrets.SSH_KEY }}
-          source: "retype-site/."
+          source: "retype-site/"
           target: "/www/htdocs/w02125c1/website/retype/"
           overwrite: true
+          exclude: |
+            .git/**

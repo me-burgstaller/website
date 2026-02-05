@@ -18,18 +18,6 @@ jobs:
       - name: Build Retype
         uses: retypeapp/action-build@v3
 
-      - name: Publish to retype branch
-        uses: retypeapp/action-github-pages@v3
-        with:
-          branch: retype
-          update-branch: true
-
-      - name: Checkout retype branch for deploy
-        uses: actions/checkout@v4
-        with:
-          ref: retype
-          path: retype-site
-
       - name: Create target dir on server
         uses: appleboy/ssh-action@master
         with:
@@ -39,14 +27,18 @@ jobs:
           script: |
             mkdir -p /www/htdocs/w02125c1/website/retype
 
-      - name: Upload retype site to server via SCP
+      - name: Upload built site (.retype) to server via SCP
         uses: appleboy/scp-action@master
         with:
           host: w01c4ca9.kasserver.com
           username: ssh-w02125c1
           key: ${{ secrets.SSH_KEY }}
-          source: "retype-site/"
+          source: ".retype/."
           target: "/www/htdocs/w02125c1/website/retype/"
           overwrite: true
-          exclude: |
-            .git/**
+
+      - name: Publish to retype branch
+        uses: retypeapp/action-github-pages@v3
+        with:
+          branch: retype
+          update-branch: true

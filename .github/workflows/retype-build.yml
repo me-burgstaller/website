@@ -1,0 +1,24 @@
+name: Build Retype to retype branch
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Retype
+        uses: retypeapp/action-build@v3
+
+      - name: Publish to retype branch
+        uses: retypeapp/action-github-pages@v3
+        with:
+          branch: retype
+          update-branch: true

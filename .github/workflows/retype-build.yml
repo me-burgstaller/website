@@ -24,6 +24,15 @@ jobs:
           branch: retype
           update-branch: true
 
+      - name: Create target dir on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: w01c4ca9.kasserver.com
+          username: ssh-w02125c1
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            mkdir -p /www/htdocs/w02125c1/website/retype
+
       - name: Upload built site to server via SCP
         uses: appleboy/scp-action@master
         with:

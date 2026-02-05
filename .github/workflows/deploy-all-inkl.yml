@@ -1,0 +1,35 @@
+name: Deploy retype branch on all-inkl
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - retype
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update retype folder on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: w01c4ca9.kasserver.com
+          username: ssh-w02125c1
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -e
+
+            cd /www/htdocs/w02125c1/website
+
+            # Stelle sicher, dass das Repo aktuell ist
+            git fetch --all
+
+            # Wenn der Worktree noch nicht existiert, anlegen
+            if [ ! -d "retype/.git" ]; then
+              rm -rf retype
+              git worktree add retype retype
+            fi
+
+            # retype-Worktree updaten
+            cd retype
+            git pull origin retype

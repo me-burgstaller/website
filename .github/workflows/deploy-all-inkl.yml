@@ -1,17 +1,35 @@
-script: |
-  set -e
-  cd /www/htdocs/w02125c1/website
+name: Deploy retype to all-inkl
 
-  git fetch --all
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*.*.*'
 
-  # Worktree-Einträge aufräumen, wenn Ordner fehlt / kaputt ist
-  git worktree prune || true
+permissions:
+  contents: read
 
-  # Wenn retype-Ordner fehlt oder kaputt ist, neu anlegen
-  if [ ! -d "retype/.git" ]; then
-    rm -rf retype
-    git worktree add -f retype retype
-  fi
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update /retype on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: w01c4ca9.kasserver.com
+          username: ssh-w02125c1
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -e
+            cd /www/htdocs/w02125c1/website
 
-  cd retype
-  git pull origin retype
+            git fetch --all
+            git worktree prune || true
+
+            if [ ! -d "retype/.git" ]; then
+              rm -rf retype
+              git worktree add -f retype retype
+            fi
+
+            cd retype
+            git pull origin retype

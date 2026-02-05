@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://burgstaller.2526.rasser-unterricht.at/retype/sitemap.xml.gz
+Sitemap: https://me-burgstaller.github.io/website/sitemap.xml.gz

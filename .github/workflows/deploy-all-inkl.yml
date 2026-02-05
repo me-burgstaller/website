@@ -1,33 +1,17 @@
-name: Deploy retype to all-inkl
+script: |
+  set -e
+  cd /www/htdocs/w02125c1/website
 
-on:
-  workflow_run:
-    workflows: ["Publish Retype powered website to retype branch"]
-    types:
-      - completed
+  git fetch --all
 
-jobs:
-  deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Update /retype on server
-        uses: appleboy/ssh-action@master
-        with:
-          host: w01c4ca9.kasserver.com
-          username: ssh-w02125c1
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            set -e
-            cd /www/htdocs/w02125c1/website
+  # Worktree-Einträge aufräumen, wenn Ordner fehlt / kaputt ist
+  git worktree prune || true
 
-            git fetch --all
+  # Wenn retype-Ordner fehlt oder kaputt ist, neu anlegen
+  if [ ! -d "retype/.git" ]; then
+    rm -rf retype
+    git worktree add -f retype retype
+  fi
 
-            # Worktree für retype anlegen, falls noch nicht vorhanden
-            if [ ! -d "retype/.git" ]; then
-              rm -rf retype
-              git worktree add retype retype
-            fi
-
-            cd retype
-            git pull origin retype
+  cd retype
+  git pull origin retype

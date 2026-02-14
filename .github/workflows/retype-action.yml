@@ -68,6 +68,7 @@ jobs:
             EOF
 
             # .htpasswd neu schreiben (Hash kommt aus GitHub Secret)
-            cat > /www/htdocs/w02125c1/website/.htpasswd <<EOF
+            # WICHTIG: <<'EOF' verhindert, dass $2y$... kaputt interpretiert wird
+            cat > /www/htdocs/w02125c1/website/.htpasswd <<'EOF'
             ${{ secrets.HTPASSWD_LINE }}
             EOF

@@ -35,6 +35,16 @@ jobs:
           script: |
             set -e
 
+            # Debug (damit wir im Log sofort sehen, ob Pfade passen)
+            whoami
+            pwd
+            ls -la /www/htdocs/w02125c1 || true
+            ls -la /www/htdocs/w02125c1/website || true
+
+            # Sicherstellen, dass Worktree/Repo existieren
+            test -d /www/htdocs/w02125c1/.repo
+            test -f /www/htdocs/w02125c1/website/.git
+
             # retype-Branch vom Server aktualisieren
             git -C /www/htdocs/w02125c1/.repo fetch origin retype
 

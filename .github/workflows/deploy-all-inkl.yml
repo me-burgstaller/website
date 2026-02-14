@@ -2,9 +2,6 @@ name: Deploy retype to all-inkl
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - 'v*.*.*'
 
 permissions:
   contents: read
@@ -22,7 +19,6 @@ jobs:
           script: |
             set -e
             cd /www/htdocs/w02125c1
-
 
             git fetch --all
             git worktree prune || true

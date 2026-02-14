@@ -1,24 +1,7 @@
-# Meine Dokumentation
+# Dokumentation
 
-Willkommen! Hier findest du die Dokumentation zu meinem Projekt.
+## Projekt „Inventory“
 
-## Inhalt
-- Überblick
-- Installation / Setup
-- Funktionen
-- Screenshots
-- Kontakt
+Gemeinsames Konkurrenzprojekt mit nutzbarer REST-API (Inventar-CRUD), schneller raumbezogener Prüfung per QR-Codes, optionaler KI-Nutzung; kostenlose stündliche Retype-Doku inkl. Code, Doku-Deploy nach jeder Stunde per Push, Commit/Push je Doppelstunde; Präsentation bei Herrn Unterhofer, evtl. Open-Source-Release unter Beachtung der Rechte.
 
-## Projektüberblick
-Kurze Beschreibung, worum es geht und was das Ziel ist.
-
-## Setup
-1. Repository klonen
-2. Abhängigkeiten installieren
-3. Projekt starten
-
-## Funktionen
-- Feature 1
-- Feature 2
-- Feature 3
 

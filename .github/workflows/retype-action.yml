@@ -1,23 +1,63 @@
-name: Publish Retype powered website to GitHub Pages
+name: Publish Retype powered website to all-inkl
+
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - main
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
 
 jobs:
   publish:
+    name: Deploy on all-inkl
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: retypeapp/action-build@latest
-        env:
-          RETYPE_KEY: ${{ secrets.RETYPE_KEY }}
+      - name: Build pages
+        uses: retypeapp/action-build@latest
 
-      - uses: retypeapp/action-github-pages@latest
+      - name: Store in branch
+        uses: retypeapp/action-github-pages@latest
         with:
+          branch: retype
           update-branch: true
+
+      - name: Refresh server worktree
+        uses: appleboy/ssh-action@master
+        with:
+          host: w01c4ca9.kasserver.com
+          username: ssh-w02125c1
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -e
+
+            # retype-Branch vom Server aktualisieren
+            git -C /www/htdocs/w02125c1/.repo fetch origin retype
+
+            # Website-Verzeichnis auf neuesten Stand setzen
+            git -C /www/htdocs/w02125c1/website reset --hard origin/retype
+            git -C /www/htdocs/w02125c1/website clean -fdx
+
+            # .htaccess neu schreiben
+            cat > /www/htdocs/w02125c1/website/.htaccess <<'EOF'
+            <FilesMatch "^\.git">
+              Require all denied
+            </FilesMatch>
+
+            Options -Indexes
+
+            AuthUserFile /www/htdocs/w02125c1/website/.htpasswd
+            AuthGroupFile /dev/null
+            AuthName "bitte Zugangsdaten eingeben"
+            AuthType Basic
+            require valid-user
+            EOF
+
+            # .htpasswd neu schreiben (Hash kommt aus GitHub Secret)
+            cat > /www/htdocs/w02125c1/website/.htpasswd <<EOF
+            ${{ secrets.HTPASSWD_LINE }}
+            EOF

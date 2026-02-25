@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825317896334">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825320452779">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.0.1">
@@ -12,6 +12,7 @@
     <!-- Primary Meta Tags -->
     <title>2026-02-25</title>
     <meta name="title" content="2026-02-25">
+    <meta name="description" content="Ich habe mit der Umsetzung der Benutzerstruktur angefangen. Ich habe zwei neue Felder zu users hinzugefügt:">
 
     <!-- Canonical -->
     <link rel="canonical" href="/2026-02-25_4ue/">
@@ -20,16 +21,17 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="/2026-02-25_4ue/">
     <meta property="og:title" content="2026-02-25">
+    <meta property="og:description" content="Ich habe mit der Umsetzung der Benutzerstruktur angefangen. Ich habe zwei neue Felder zu users hinzugefügt:">
     <meta property="og:site_name" content="Project Name">
     <meta property="og:locale" content="en_US">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../resources/css/retype.css?v=4.0.1.825317896334" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=4.0.1.825320452779" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=4.0.1.825317896334" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=4.0.1.825320452779" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.0.1.825317896334" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.0.1.825320452779" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -145,9 +147,31 @@
         <span>Migrationen</span>
     </h2>
 </doc-anchor-target>
+<doc-anchor-target id="benutzer">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#benutzer">#</doc-anchor-trigger>
+        <span>Benutzer</span>
+    </h3>
+</doc-anchor-target>
+<p>Ich habe mit der  Umsetzung der Benutzerstruktur angefangen. Ich habe zwei neue Felder zu <code translate="no" v-pre>users</code> hinzugefügt:</p>
+<p><strong>role</strong>: Um zwischen Lehrer, Sekretariat und Direktor zu unterscheiden zu können. Das sind quasi die Benutzerrollen (für Rechteprüfung später).</p>
+<p><strong>can_issue_vouchers</strong>: Um festzulegen, ob eine Lehrperson berechtigt ist, Gutscheine zu erstellen oder eben nicht. Man kann ihnen später die Berechtigung geben und dann wieder wegnehmen.</p>
+<p>All das habe ich in dieser Migration gemacht:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none"><code v-pre class="language-none">2026_02_25_065441_add_role_and_can_issue_vouchers_to_users_table.php</code></pre>
 </doc-codeblock></div>
+<doc-anchor-target id="schüler">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#schüler">#</doc-anchor-trigger>
+        <span>Schüler</span>
+    </h3>
+</doc-anchor-target>
+<p>Mit diesem Befehl habe ich <code translate="no" v-pre>Student.php</code> erstellt:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-none"><code v-pre class="language-none">php artisan make:model Student -m</code></pre>
+</doc-codeblock></div>
+<p>Dadurch habe ich auch Migration <code translate="no" v-pre>create_students_table.php</code> automatisch erstellt.</p>
+<p>Dann habe ich mir überlegt, welche Werte ich für jeden Schüler brauche.</p>
 
                 
                 <!-- Required only on API pages -->

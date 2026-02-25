@@ -1,5 +1,5 @@
 ---
-title: Gutscheinsystem
+title: Gutscheinsystem Grundkonzept
 author: Melissa Burgstaller
 date: 2026-02-18
 ---

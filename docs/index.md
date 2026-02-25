@@ -1,6 +1,6 @@
 ---
 title: Gutscheinsystem Grundkonzept
-author: Melissa Burgstaller
+author: me-burgstaller
 date: 2026-02-18
 ---
 # Dokumentation Melissa Burgstaller

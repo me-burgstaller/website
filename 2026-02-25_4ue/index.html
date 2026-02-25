@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825331303723">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825334770808">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.0.1">
@@ -27,11 +27,11 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../resources/css/retype.css?v=4.0.1.825331303723" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=4.0.1.825334770808" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=4.0.1.825331303723" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=4.0.1.825334770808" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.0.1.825331303723" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.0.1.825334770808" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -134,7 +134,7 @@
           <div class="shrink-0 w-8 h-8 overflow-hidden rounded-full">
             <svg width="2rem" height="2rem" xmlns="http://www.w3.org/2000/svg" fill="white"><g><rect width="2rem" height="1.7rem" fill="#c5c5c5"/><circle r="0.44rem" cy="0.83rem" cx="1rem"/><ellipse ry="0.96rem" rx="0.77rem" cy="2.15rem" cx="1rem"/></g></svg>
           </div>
-          <div class="ml-1 whitespace-nowrap text-gray-500 dark:text-dark-350">Melissa Burgstaller</div>
+          <div class="ml-1 whitespace-nowrap text-gray-500 dark:text-dark-350">me-burgstaller</div>
         </div>
     </div>
     <div class="mx-2">&#9679;</div>
@@ -147,10 +147,10 @@
         <span>Migrationen</span>
     </h2>
 </doc-anchor-target>
-<doc-anchor-target id="benutzer">
+<doc-anchor-target id="user-migration">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#benutzer">#</doc-anchor-trigger>
-        <span>Benutzer</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#user-migration">#</doc-anchor-trigger>
+        <span>User Migration</span>
     </h3>
 </doc-anchor-target>
 <p>Ich habe mit der  Umsetzung der Benutzerstruktur angefangen. Ich habe zwei neue Felder zu <code translate="no" v-pre>users</code> hinzugefügt:</p>
@@ -160,10 +160,10 @@
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none"><code v-pre class="language-none">2026_02_25_065441_add_role_and_can_issue_vouchers_to_users_table.php</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="schüler">
+<doc-anchor-target id="student-migration">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#schüler">#</doc-anchor-trigger>
-        <span>Schüler</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#student-migration">#</doc-anchor-trigger>
+        <span>Student Migration</span>
     </h3>
 </doc-anchor-target>
 <p>Mit diesem Befehl habe ich <code translate="no" v-pre>Student.php</code> erstellt:</p>
@@ -172,12 +172,12 @@
 </doc-codeblock></div>
 <p>Dadurch habe ich auch Migration <code translate="no" v-pre>create_students_table.php</code> automatisch erstellt.</p>
 <p>Dann habe ich mir überlegt, welche Felder ich beim Schüler hinzufügen soll:
-<code translate="no" v-pre>id</code>: Primärschlüssel
-<code translate="no" v-pre>student_id</code>: Matrikelnummer (jede Schüler hat eine individuelle)
-<code translate="no" v-pre>first_name</code>: Vorname
-<code translate="no" v-pre>last_name</code>: Nachname
-<code translate="no" v-pre>birthdate</code>: Geburtsdatum
-<code translate="no" v-pre>timestamps</code>: Zeit der Erstellung</p>
+<strong>id</strong>: Primärschlüssel</p>
+<p><strong>student_id</strong>: Matrikelnummer (jede Schüler hat eine individuelle)</p>
+<p><strong>first_name</strong>: Vorname</p>
+<p><strong>last_name</strong>: Nachname</p>
+<p><strong>birthdate</strong>: Geburtsdatum</p>
+<p><strong>timestamps</strong>: Zeit der Erstellung</p>
 <p>Ich habe die Klasse bewusst nicht beim Schüler dazugespeichert, da sich die Klasse ja jährlich verändert, außer der Schüler bleibt sitzen. Die Klasse werde ich später direkt beim Gutschein speichern.
 Dann habe ich Migration ausgeführt <code translate="no" v-pre>php artisan migrate</code>.</p>
 <p>Dann habe ich nochmal nachgedacht und bin draufgekommen, dass jeder Schüler ja auch eine E-Mail hat. Dann habe ich die <code translate="no" v-pre>students</code>-Tabelle um das Feld <code translate="no" v-pre>email</code> erweitert, welches <code translate="no" v-pre>unique</code> ist, durch diese neue Migration:</p>
@@ -185,10 +185,10 @@ Dann habe ich Migration ausgeführt <code translate="no" v-pre>php artisan migra
 <pre translate="no" class="language-none"><code v-pre class="language-none">php artisan make:migration add_email_to_students_table --table=students</code></pre>
 </doc-codeblock></div>
 <p>Danach habe ich nochmal <code translate="no" v-pre>php artisan migrate</code> gemacht.</p>
-<doc-anchor-target id="gutschein">
+<doc-anchor-target id="voucher-migration">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#gutschein">#</doc-anchor-trigger>
-        <span>Gutschein</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#voucher-migration">#</doc-anchor-trigger>
+        <span>Voucher Migration</span>
     </h3>
 </doc-anchor-target>
 <p>Jeder Gutschein hat eine Nummer was <code translate="no" v-pre>unique</code> ist und ist eindeutig einem <code translate="no" v-pre>student</code> zugeordnet.</p>
@@ -196,36 +196,62 @@ Dann habe ich Migration ausgeführt <code translate="no" v-pre>php artisan migra
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none"><code v-pre class="language-none">php artisan make:model Voucher -m</code></pre>
 </doc-codeblock></div>
-<p>Dann habe ich mir die Werte für einen <code translate="no" v-pre>voucher</code> überlegt:
-<code translate="no" v-pre>id</code>: standardmäßiger Primärschlüssel
-<code translate="no" v-pre>code</code>: UUID Universally Unique Identifier (weltweit eindeutige Identifikationsnummer)
-<code translate="no" v-pre>foreignId('student_id')</code>: Gutschein wird Schüler zugeordnet
-<code translate="no" v-pre>foreignId('issued_by_user_id')</code>: speichert, Lehrperson welche den Gutschein erstellt hat
-<code translate="no" v-pre>foreignId('approved_by_user_id')</code>: speichert, welche berechtigte Person den Gutschein genehmigt hat.
-<code translate="no" v-pre>foreignId('redeemed_by_user_id')</code>: speichert, welche Lehrperson den Gutschein beim Einlösen gescannt/eingelöst hat.
-<code translate="no" v-pre>template</code>: speichert das ausgewählte Template (excellent_success, good_success, event_help, custom)
-<code translate="no" v-pre>reason_custom</code>: Begründungstext, warum <code translate="no" v-pre>custom</code>-Template (optional)
-<code translate="no" v-pre>student_class</code>: speichert Klasse des Schülers
-<code translate="no" v-pre>type</code>: Art des Gutscheins (day, afternoon, hour)
-<code translate="no" v-pre>amount</code>: Anzahl der in <code translate="no" v-pre>type</code> gewählten Einheit
-<code translate="no" v-pre>valid_school_year</code>: Jahr, bis zu dem Gutschein gültig ist
-<code translate="no" v-pre>expires_at</code>: Ablaufdatum genau (zum Rechnen)
-<code translate="no" v-pre>status</code>: Status von Gutschein:</p>
+<p>Dann habe ich mir die Werte für einen <code translate="no" v-pre>voucher</code> überlegt  und abgeglichen mit meinem Grundkonzept:</p>
+<p><strong>id</strong>: standardmäßiger Primärschlüssel</p>
+<p><strong>code</strong>: UUID Universally Unique Identifier (weltweit eindeutige Identifikationsnummer)</p>
+<p><strong>foreignId(&#x27;student_id&#x27;)</strong>: Gutschein wird Schüler zugeordnet</p>
+<p><strong>foreignId(&#x27;issued_by_user_id&#x27;)</strong>: speichert, Lehrperson welche den Gutschein erstellt hat</p>
+<p><strong>foreignId(&#x27;approved_by_user_id&#x27;)</strong>: speichert, welche berechtigte Person den Gutschein genehmigt hat.</p>
+<p><strong>foreignId(&#x27;redeemed_by_user_id&#x27;)</strong>: speichert, welche Lehrperson den Gutschein beim Einlösen gescannt/eingelöst hat.</p>
+<p><strong>template</strong>: speichert das ausgewählte Template (excellent_success, good_success, event_help, custom)</p>
+<p><strong>reason_custom</strong>: Begründungstext, warum <code translate="no" v-pre>custom</code>-Template (optional)</p>
+<p><strong>student_class</strong>: speichert Klasse des Schülers</p>
+<p><strong>type</strong>: Art des Gutscheins (day, afternoon, hour)</p>
+<p><strong>amount</strong>: Anzahl der in <code translate="no" v-pre>type</code> gewählten Einheit</p>
+<p><strong>valid_school_year</strong>: Jahr, bis zu dem Gutschein gültig ist</p>
+<p><strong>expires_at</strong>: Ablaufdatum genau (zum Rechnen)</p>
+<p><strong>status</strong>: Status von Gutschein:</p>
 <ul>
 <li>pending: noch nicht genehmigt //standard</li>
 <li>approved: genehmigt</li>
 <li>sent: per E-Mail verschickt</li>
 <li>redeemed: einglöst</li>
 <li>expired: abgelaufen</li>
-<li>rejected: abgelehnt
-<code translate="no" v-pre>issued_at</code>: Zeitpunkt der Ausstellung
-<code translate="no" v-pre>approved_at</code> Zeitpunkt der Genehmigung
-<code translate="no" v-pre>sent_at</code>: Zeitpunkt der Absendung (E-Mail)
-<code translate="no" v-pre>redeemed_at</code>: Zeitpunkt der Einlösung
-<code translate="no" v-pre>pdf_path</code>: Speicherort der generierten PDF-Datei
-<code translate="no" v-pre>timestamps</code>: Erstellung und Änderung in Datenbank (<code translate="no" v-pre>created_at</code> und <code translate="no" v-pre>updated_at</code>)</li>
+<li>rejected: abgelehnt</li>
 </ul>
+<p><strong>issued_at</strong>: Zeitpunkt der Ausstellung</p>
+<p><strong>approved_at</strong> Zeitpunkt der Genehmigung</p>
+<p><strong>sent_at</strong>: Zeitpunkt der Absendung (E-Mail)</p>
+<p><strong>redeemed_at</strong>: Zeitpunkt der Einlösung</p>
+<p><strong>pdf_path</strong>: Speicherort der generierten PDF-Datei</p>
+<p><strong>timestamps</strong>: Erstellung und Änderung in Datenbank (<code translate="no" v-pre>created_at</code> und <code translate="no" v-pre>updated_at</code>)</p>
 <p>Abgeschlossen habe ich das mit <code translate="no" v-pre>php artisan migrate</code>.</p>
+<doc-anchor-target id="voucher-model">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#voucher-model">#</doc-anchor-trigger>
+        <span>Voucher Model</span>
+    </h3>
+</doc-anchor-target>
+<p>Weiters habe ich das <code translate="no" v-pre>voucher</code>-Model bearbeitet. Zurerst habe ich <code translate="no" v-pre>guarded</code> oben hinzugefügt, damit ich später bestimmen kann was nicht ausgefüllt werden darf. <code translate="no" v-pre>guarded</code> ist das Gegenstück zu <code translate="no" v-pre>fillable</code>.</p>
+<p>Die unten abgebildete Funktion sorgt dafür, dass jeder Gutschein eine UUID-Nummer bekommt, wenn er gespeichert wird:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-none"><code v-pre class="language-none">protected static function booted(): void { 
+    static::creating(function ($voucher) { 
+        if (empty($voucher-&gt;code)) { $voucher-&gt;code = (string) Str::uuid(); } 
+        }); 
+        }</code></pre>
+</doc-codeblock></div>
+<p><code translate="no" v-pre>booted</code> ist Laravel Funktion, welche automatisch ausgeführt wird, wenn Model geladen wird.
+Kurz bevor ein Gutschein erstellt wird, wird geprüft ob dieser Gutschein schon Nummer hat.
+Wenn er noch keine Nummer hat wird durch <code translate="no" v-pre>Str::uuid()</code> eine erstellt.</p>
+<p>Im Voucher-Model habe ich Beziehungen definiert, damit ein Gutschein automatisch mit dem zugehörigen Schüler und den beteiligten Personen verknüpft ist.
+Über <code translate="no" v-pre>student()</code> wird der Schüler geladen über <code translate="no" v-pre>student_id</code>. Zusätzlich wird gespeichert, welche Lehrperson den Gutschein erstellt <code translate="no" v-pre>issued_by_user_id</code>, wer ihn genehmigt <code translate="no" v-pre>approved_by_user_id</code> und wer ihn eingelöst <code translate="no" v-pre>redeemed_by_user_id</code> hat.</p>
+<p>Somit steht meine DB-Struktur glaube ich grundsätzlich mal.</p>
+<p>Beim Git-Push waren ein paar Fehlermeldungen, die von Tests kommen. Deshalb habe ich in <code translate="no" v-pre>tests.yml</code> vorübergehend die <code translate="no" v-pre>php artisan tests</code> auskommentiert:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-none"><code v-pre class="language-none">      # - name: Run Tests
+      #   run: ./vendor/bin/phpunit</code></pre>
+</doc-codeblock></div>
 
                 
                 <!-- Required only on API pages -->

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825939867373">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825940681695">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.1.0">
@@ -27,11 +27,11 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../resources/css/retype.css?v=4.1.0.825939867373" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=4.1.0.825940681695" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=4.1.0.825939867373" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=4.1.0.825940681695" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.1.0.825939867373" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.1.0.825940681695" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -226,8 +226,6 @@ Dann habe ich standardmäßig mal 3 Funktionen erstellt: <code translate="no" v-
 <p>Nachdem ich den VoucherController erstellt und die passenden Routes definiert hatte, habe ich als nächsten Schritt die ersten Views angelegt. Diese sind notwendig, damit die Funktionen aus dem Controller auch über eine Benutzeroberfläche verwendet werden können.</p>
 <p>Zuerst habe ich eine View für die Übersicht der Gutscheine <code translate="no" v-pre>vouchers.index</code> erstellt. In dieser Ansicht werden alle vorhandenen Gutscheine angezeigt. Dadurch ist es möglich, alle erstellten Gutscheine in einer Liste darzustellen. In der Übersicht können später wichtige Informationen wie der Gutscheincode, der zugehörige Schüler oder die zugehörige Schülerin, die Art des Gutscheins sowie der Status angezeigt werden.</p>
 <p>Zusätzlich habe ich eine zweite View für das Erstellen eines neuen Gutscheins <code translate="no" v-pre>vouchers.create</code> erstellt. Diese enthält ein Formular, in dem die benötigten Daten für einen Gutschein eingegeben werden können.</p>
-<p>Außerdem können im Formular verschiedene Gutscheinvorlagen ausgewählt werden. Dazu gehören zum Beispiel „Ausgezeichneter Erfolg“, „Guter Erfolg“, „Mithilfe bei Veranstaltung“ oder eine individuelle Variante (custom). Wenn die individuelle Variante gewählt wird, kann zusätzlich ein eigener Grund für den Gutschein eingegeben werden.</p>
-<p>Ein weiterer wichtiger Punkt im Formular ist die Art des Gutscheins. Dabei kann ausgewählt werden, ob es sich um einen Gutschein für einen ganzen Tag, einen Nachmittag oder eine einzelne Stunde handelt. Zusätzlich wird angegeben, wie viele Tage, Nachmittage oder Stunden der Gutschein umfasst. Optional kann auch ein Ablaufdatum gesetzt werden, falls der Gutschein nur für einen bestimmten Zeitraum gültig sein soll.</p>
 <doc-anchor-target id="erstellung-eines-test-benutzers-admin">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#erstellung-eines-test-benutzers-admin">#</doc-anchor-trigger>
@@ -323,6 +321,18 @@ Die <code translate="no" v-pre>create</code>-Funktion zeigt das Formular zum Anl
 </doc-anchor-target>
 <p>Damit Gutscheine nicht unbegrenzt gültig bleiben, habe ich nun das Ablaufdatum als <code translate="no" v-pre>required</code> gesetzt.</p>
 <p>Zusätzlich wurde unter dem Datumsfeld eine Schnellauswahl mit Buttons (1 Jahr, 2 Jahre, 5 Jahre) integriert. Beim Anklicken eines Buttons wird automatisch ein passendes Ablaufdatum berechnet und in das Datumsfeld eingetragen. Das Datum kann jedoch weiterhin manuell angepasst werden.</p>
+<doc-anchor-target id="schüler">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#schüler">#</doc-anchor-trigger>
+        <span>Schüler</span>
+    </h2>
+</doc-anchor-target>
+<p>TO-DO:</p>
+<ul>
+<li>Bei Gutscheinerstellung: Schüler durch Namen oder Nummer suchen (mit ENTER bestätigen), ich möchte auch Anzeige wenn man Buchstaben eintippt, dann sollen direkt darunter die Vorschläge aufklappen und man kann dann draufdrücken, wenn richtige Person erscheint</li>
+<li>Falls Schüler nicht vorhanden -&gt; Überleitung zu Schüler/in erstellen/hinzufügen</li>
+<li>Mehrere Gutscheine auf einmal mit gleichen Basisdaten - oben Eingabe von mehreren Schülern/innen, Template und so überall das gleiche</li>
+</ul>
 
                 
                 <!-- Required only on API pages -->

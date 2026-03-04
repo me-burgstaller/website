@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825925947445">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825937490758">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.1.0">
@@ -27,11 +27,11 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../resources/css/retype.css?v=4.1.0.825925947445" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=4.1.0.825937490758" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=4.1.0.825925947445" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=4.1.0.825937490758" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.1.0.825925947445" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.1.0.825937490758" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -235,6 +235,92 @@ Dann habe ich standardmäßig mal 3 Funktionen erstellt: <code translate="no" v-
     </h2>
 </doc-anchor-target>
 <p>Damit ich das System testen kann, musste ich zuerst einen Benutzer erstellen, mit dem ich mich im System anmelden kann. Dafür habe ich über die Konsole einen <code translate="no" v-pre>Admin-User</code> in der Datenbank angelegt. Anschließend konnte ich mich über die Login-Seite im System anmelden.</p>
+<doc-anchor-target id="aufbau-des-formulars-in-voucherscreate">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#aufbau-des-formulars-in-voucherscreate">#</doc-anchor-trigger>
+        <span>Aufbau des Formulars in vouchers.create</span>
+    </h2>
+</doc-anchor-target>
+<p>In der View <code translate="no" v-pre>vouchers.create</code> habe ich anschließend das eigentliche Formular zum Erstellen eines Gutscheins umgesetzt. Das Formular sendet seine Daten per <code translate="no" v-pre>POST</code> an die Route <code translate="no" v-pre>vouchers.store</code>, welche im <code translate="no" v-pre>VoucherController</code> verarbeitet wird. Zusätzlich wird das Laravel-Sicherheitsfeature <code translate="no" v-pre>@csrf</code> verwendet.</p>
+<p>Zu Beginn des Formulars wird überprüft, ob es Validierungsfehler gibt. Falls bei der Eingabe Fehler auftreten (z. B. wenn ein Pflichtfeld nicht ausgefüllt wurde), werden diese oberhalb des Formulars in einer Liste angezeigt. Dadurch erhält der Benutzer direkt eine Rückmeldung, welche Eingaben korrigiert werden müssen.</p>
+<p>Im ersten Schritt kann eine Schülerin oder ein Schüler aus der Datenbank ausgewählt werden. Dazu wird ein Dropdown-Menü verwendet. Im Dropdown wird der Nachname, der Vorname sowie die Matrikelnummer angezeigt, damit die richtige Person eindeutig ausgewählt werden kann.</p>
+<p>Danach kann die Gutscheinvorlage ausgewählt werden. Die möglichen Vorlagen werden im Controller als Array definiert und anschließend im Formular angezeigt. Ein besonderes Feld ist der individuelle Grund (reason_custom). Dieses Feld wird nur benötigt, wenn im Dropdown-Menü die Vorlage „Individuell“ ausgewählt wird. Damit das Formular übersichtlich bleibt, wird dieses Feld standardmäßig ausgeblendet. Mithilfe eines kleinen JavaScript-Skripts wird überprüft, welche Vorlage ausgewählt wurde. Sobald die Option <code translate="no" v-pre>custom</code> ausgewählt wird, erscheint das Eingabefeld automatisch. Wenn eine andere Vorlage ausgewählt wird, wird das Feld wieder ausgeblendet.</p>
+<p>Anschließend kann die Art des Gutscheins ausgewählt werden. Dabei stehen die Optionen Tag, Nachmittag oder Stunde zur Verfügung. Zusätzlich muss die Anzahl der Tage, Nachmittage oder Stunden eingegeben werden.</p>
+<p>Optional kann außerdem ein Ablaufdatum für den Gutschein festgelegt werden. Wenn kein Datum angegeben wird, bleibt dieses Feld in der Datenbank leer. Zum Abschluss enthält das Formular einen Button, mit dem der Gutschein gespeichert werden kann. Beim Absenden des Formulars werden die Daten an die <code translate="no" v-pre>store-Methode</code> im <code translate="no" v-pre>VoucherController</code> übergeben und dort weiterverarbeitet.</p>
+<doc-anchor-target id="darstellung-der-gutscheine-in-vouchersindex">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#darstellung-der-gutscheine-in-vouchersindex">#</doc-anchor-trigger>
+        <span>Darstellung der Gutscheine in vouchers.index</span>
+    </h2>
+</doc-anchor-target>
+<p>In der View vouchers.index habe ich eine Tabelle erstellt, in der alle vorhandenen Gutscheine angezeigt werden. Zunächst wird überprüft, ob bereits Gutscheine vorhanden sind. Falls keine Gutscheine existieren, wird eine kurze Nachricht angezeigt, dass noch keine Gutscheine im System gespeichert sind.</p>
+<p>Wenn Gutscheine vorhanden sind, werden diese in einer Tabelle dargestellt. Die Tabelle enthält mehrere Spalten, darunter sind die ganzen Daten:</p>
+<ul>
+<li>Gutscheincode</li>
+<li>Schüler/in</li>
+<li>Gutscheinvorlage</li>
+<li>Art (Tag,...)</li>
+<li>Anzahl</li>
+<li>Status</li>
+<li>Zeitpunkt der Ausstellung</li>
+<li>Ablaufdatum</li>
+</ul>
+<p>Zusätzlich wird oberhalb der Tabelle ein Link angezeigt, mit dem ein neuer Gutschein erstellt werden kann. Dieser führt direkt zur Seite <code translate="no" v-pre>/vouchers/create</code>. Am Ende der Tabelle wird außerdem die Laravel-Funktion <code translate="no" v-pre>paginate()</code> verwendet, um die Gutscheine seitenweise darzustellen.</p>
+<doc-anchor-target id="testen-der-gutschein-erstellung">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#testen-der-gutschein-erstellung">#</doc-anchor-trigger>
+        <span>Testen der Gutschein-Erstellung</span>
+    </h2>
+</doc-anchor-target>
+<p>Da zu Beginn noch keine Schüler/innen in der Datenbank vorhanden waren, habe ich zunächst einen Test-Schüler direkt in der Datenbank erstellt. Dadurch konnte ich überprüfen, ob das Formular zum Erstellen eines Gutscheins korrekt funktioniert.</p>
+<p>Anschließend habe ich das Formular unter <code translate="no" v-pre>/vouchers/create</code> geöffnet, einen Schüler ausgewählt und einen Gutschein erstellt. Nach dem Speichern wird der Gutschein in der Datenbank gespeichert und man wird automatisch auf die Gutscheinübersicht weitergeleitet.</p>
+<p>Dort erscheint der neu erstellte Gutschein in der Tabelle. Dadurch konnte ich bestätigen, dass das Formular korrekt funktioniert, sowie die Anzeige in der Übersicht korrekt funktioniert.</p>
+<doc-anchor-target id="umsetzung-einer-schülerverwaltung">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#umsetzung-einer-schülerverwaltung">#</doc-anchor-trigger>
+        <span>Umsetzung einer Schülerverwaltung</span>
+    </h2>
+</doc-anchor-target>
+<p>Nachdem die grundlegende Gutschein-Funktion bereits umgesetzt ist, besteht das Problem, dass Schüler/innen bisher nur manuell über die Datenbank oder über tinker angelegt werden können. Damit das System später auch im Schulalltag verwendet werden kann, habe ich eine einfache Schülerverwaltung umgesetzt. Zunächst habe ich mich dabei auf die wichtigsten Funktionen konzentriert, nämlich auf das Anlegen und Anzeigen.</p>
+<p>Dafür habe ich einen <code translate="no" v-pre>StudentController</code> erstellt. In diesem Controller befinden sich aktuell die Funktionen <code translate="no" v-pre>index</code>, <code translate="no" v-pre>create</code> und <code translate="no" v-pre>store</code>.
+Die <code translate="no" v-pre>index</code>-Funktion lädt alle Schüler/innen aus der Datenbank, sortiert sie alphabetisch nach Nachname und Vorname und übergibt die Daten anschließend an die View <code translate="no" v-pre>students.index</code>. Dort werden die Schüler/innen in einer Tabelle dargestellt.
+Die <code translate="no" v-pre>create</code>-Funktion zeigt das Formular zum Anlegen einer neuen Schülerin bzw. eines neuen Schülers an. Die eigentliche Speicherung erfolgt in der <code translate="no" v-pre>store</code>-Funktion. Dort werden zuerst alle Eingaben validiert, damit keine falschen oder unvollständigen Daten gespeichert werden. Wenn alle Daten korrekt sind, wird die neue Schülerin bzw. der neue Schüler mit <code translate="no" v-pre>Student::create()</code> in der Datenbank gespeichert.</p>
+<p>Zusätzlich habe ich neue Routes in der Datei <code translate="no" v-pre>web.php</code> erstellt, damit die Seiten erreichbar sind. Diese Routes befinden sich auch innerhalb der <code translate="no" v-pre>auth-Middleware</code>, damit nur eingeloggte Benutzer Zugriff auf die Schülerverwaltung haben. Für die Benutzeroberfläche habe ich zwei neie Views erstellt. Die View <code translate="no" v-pre>students.index</code> zeigt eine Tabelle mit allen vorhandenen Schülern an. Die View <code translate="no" v-pre>students.create</code> enthält ein Formular, in dem Matrikelnummer, Vorname, Nachname, Geburtsdatum und E-Mail-Adresse eingegeben werden müssen.</p>
+<doc-anchor-target id="gutscheinanzeige-auf-deutsch">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#gutscheinanzeige-auf-deutsch">#</doc-anchor-trigger>
+        <span>Gutscheinanzeige auf Deutsch</span>
+    </h2>
+</doc-anchor-target>
+<p>Da die Werte für Vorlage, Gutscheinart und Status in der Datenbank in englischer Form gespeichert werden, wäre diese Darstellung für Lehrpersonen nicht besonders verständlich. Deshalb habe ich eine Übersetzung gemacht.</p>
+<p>Dafür habe ich <code translate="no" v-pre>lang/de</code>-Ordner erstellt. Die Datei befindet sich darin und heißt <code translate="no" v-pre>vouchers.php</code>. In dieser Datei habe ich die englischen Begriffe in Deutsch umgewandelt. Beispielsweise wird der Wert good_success als „Guter Erfolg“ angezeigt, day als „Tag(e)“ und pending als „Ausstehend“.</p>
+<p>In der View <code translate="no" v-pre>vouchers.index</code> werden diese Übersetzungen anschließend mit der Laravel-Funktion <code translate="no" v-pre>__()</code> aufgerufen. Dadurch wird automatisch der passende deutsche Text aus der Language-Datei geladen.</p>
+<doc-anchor-target id="datumsformat-ändern">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#datumsformat-ändern">#</doc-anchor-trigger>
+        <span>Datumsformat ändern</span>
+    </h2>
+</doc-anchor-target>
+<p>In der Gutscheinübersicht werden unter anderem der Zeitpunkt der Ausstellung sowie ein mögliches Ablaufdatum angezeigt. Standardmäßig gibt Laravel diese Werte als vollständigen Zeitstempel aus, zum Beispiel 2026-03-04 08:23:44. Für die Benutzeroberfläche ist jedoch eine einfachere Darstellung wie 04.03.2026 übersichtlicher.</p>
+<p>Damit das Datum formatiert werden kann, muss Laravel wissen, dass es sich bei diesen Feldern um Datumswerte handelt. Deshalb habe ich im <code translate="no" v-pre>Voucher</code> Model <code translate="no" v-pre>Casts</code> definiert. Dadurch werden die Werte automatisch als Datum interpretiert.</p>
+<p>protected $casts = [
+&#x27;issued_at&#x27; =&gt; &#x27;datetime&#x27;,
+&#x27;approved_at&#x27; =&gt; &#x27;datetime&#x27;,
+&#x27;sent_at&#x27; =&gt; &#x27;datetime&#x27;,
+&#x27;redeemed_at&#x27; =&gt; &#x27;datetime&#x27;,
+&#x27;expires_at&#x27; =&gt; &#x27;date&#x27;,
+];</p>
+<p>Anschließend können die Datumswerte direkt in der View formatiert werden. In der Datei <code translate="no" v-pre>vouchers.index</code> muss man zum Beispiel so schreiben:</p>
+<div id="datumsformat-ändern-code-1" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-none"><code v-pre class="language-none">{{ $voucher-&gt;issued_at?-&gt;format('d.m.Y') }}</code></pre>
+</doc-codeblock></div>
+<p>Dadurch wird aus dem ursprünglichen Zeitstempel das deutsche Datumsformat also Tag.Monat.Jahr, zum Beispiel 04.03.2026.</p>
+<doc-anchor-target id="vorauswahl-von-ablaufdatum">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#vorauswahl-von-ablaufdatum">#</doc-anchor-trigger>
+        <span>Vorauswahl von Ablaufdatum</span>
+    </h2>
+</doc-anchor-target>
 
                 
                 <!-- Required only on API pages -->

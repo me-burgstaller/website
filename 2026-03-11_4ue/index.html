@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.826540328267">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.826543616501">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.1.0">
@@ -27,12 +27,12 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../resources/css/retype.css?v=4.1.0.826540328267" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=4.1.0.826543616501" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=4.1.0.826540328267" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=4.1.0.826543616501" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.1.0.826540328267" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=4.1.0.826540328267" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.1.0.826543616501" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=4.1.0.826543616501" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -268,6 +268,81 @@ Nach dem Speichern und der Weiterleitung zurück zur Gutschein-Erstellung war nu
     </h3>
 </doc-anchor-target>
 <p>Zusätzlich wurde die Fehlermeldung „Bitte wählen Sie mindestens eine Schülerin oder einen Schüler aus.“ zweimal angezeigt. Einmal ganz oben auf der Seite und einmal direkt unter der Schülerauswahl. Die Ursache war, dass die Seite eine globale Fehlerliste/meldung hatte <code translate="no" v-pre>($errors-&gt;any())</code> und auch eine feldspezifische Fehlermeldung <code translate="no" v-pre>(@error('student_ids'))</code>. Dadurch wurde derselbe Fehler zweimal ausgegeben. Da es für die Benutzer übersichtlicher ist, wenn die Fehlermeldung direkt beim betroffenen Feld angezeigt wird, habe ich die globale Fehlerliste (die immer ganz oben angezeigt worden wäre) entfernt.</p>
+<doc-anchor-target id="gutscheinliste-verbessern">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#gutscheinliste-verbessern">#</doc-anchor-trigger>
+        <span>Gutscheinliste verbessern</span>
+    </h2>
+</doc-anchor-target>
+<p>Ich möchte die Gutscheinliste schonmal bisschen &quot;schöner&quot; gestalten bzw. den Status besser sichtbar machen:</p>
+<ul>
+<li>pending: GRau (zeigt an, dass noch Prozess läuft bzw. noch nicht gültig)</li>
+<li>approved: Grün (absofort gültig, Zwischenschritt, weil wenn man am Ende vom Schuljahr viele Gutscheine erstellt - sie jetzt noch nicht absenden will)</li>
+<li>sent: Blau (Gutscheine ausgesendet)</li>
+<li>redeemed: Pink (Eingelöst - soll klar sichtbar sein und sich abheben)</li>
+<li>expired: Rot (Rot - für abgelaufen)
+Das habe ich einfach in der vouchers/index.blade.php ganz unten definiert.</li>
+</ul>
+<p>Nun muss ich das aber auch irgendwie testen:
+Deshalb habe ich in der <code translate="no" v-pre>web.php</code> neue Routes definiert:</p>
+<div id="gutscheinliste-verbessern-code-1" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-php"><code v-pre class="language-php">// Status
+Route::middleware(['auth'])-&gt;group(function () {
+    Route::post('/vouchers/{voucher}/approve', [VoucherController::class, 'approve'])
+        -&gt;name('vouchers.approve');
+    Route::post('/vouchers/{voucher}/send', [VoucherController::class, 'send'])
+        -&gt;name('vouchers.send');
+    Route::post('/vouchers/{voucher}/redeem', [VoucherController::class, 'redeem'])
+        -&gt;name('vouchers.redeem');
+});</code></pre>
+</doc-codeblock></div>
+<p>Anschließend habe ich im <code translate="no" v-pre>VoucherController</code> neue Funktionen hinzugefügt.
+Eine <code translate="no" v-pre>approve</code>-Funktion, wo der Status auf genehmigt gesetzt wird, ebenso wird da gesetzt von wem der Gutschein genehmigt wurde, sowie zu welcher Uhrzeit.
+Eine <code translate="no" v-pre>send</code>-Funktion, die derzeit nur Status verändert und Zeitpunkt speichert.
+Eine <code translate="no" v-pre>redeem</code>-Funktion, welche den Status auf eingelöst setzt und speichert von wem und wann der Gutschein eingelöst wurde. Hier muss man aber berücksichtigen, dass das nur derzeit so ist, weil später wäre es ja unlogisch über dieses Formular den Gutschein einzulösen mit einem Klick (dies soll ausschließlich über den QR-Code funktionieren).</p>
+<p>Danach habe ich die Spalte <code translate="no" v-pre>Aktionen</code> noch in die <code translate="no" v-pre>vouchers/index.blade.php</code> hinzugefügt und dann unten zur <code translate="no" v-pre>foreach</code>-Schleife genau diesen Code hinzugefügt:</p>
+<div id="gutscheinliste-verbessern-code-2" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-none"><code v-pre class="language-none">&lt;td&gt;
+
+                    @if($voucher-&gt;status === 'pending')
+                        &lt;form method=&quot;POST&quot; action=&quot;{{ ERROR }}&quot;&gt;
+                            @csrf
+                            &lt;button type=&quot;submit&quot;&gt;Genehmigen&lt;/button&gt;
+                        &lt;/form&gt;
+                    @endif
+
+                    @if($voucher-&gt;status === 'approved')
+                        &lt;form method=&quot;POST&quot; action=&quot;{{ ERROR }}&quot;&gt;
+                            @csrf
+                            &lt;button type=&quot;submit&quot;&gt;Versenden&lt;/button&gt;
+                        &lt;/form&gt;
+                    @endif
+
+                    @if($voucher-&gt;status === 'sent')
+                        &lt;form method=&quot;POST&quot; action=&quot;{{ ERROR }}&quot;&gt;
+                            @csrf
+                            &lt;button type=&quot;submit&quot;&gt;Einlösen&lt;/button&gt;
+                        &lt;/form&gt;
+                    @endif
+
+                &lt;/td&gt;</code></pre>
+</doc-codeblock></div>
+<p>Somit habe ich es getestet mit den Farben, ob da alles funktioniert.</p>
+<doc-anchor-target id="bugfixes">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#bugfixes">#</doc-anchor-trigger>
+        <span>Bugfixes</span>
+    </h2>
+</doc-anchor-target>
+<p>Bug derzeit noch wenn ich Matrikelnummer eingebe und mit ENTER bestätige, dann wird der Schüler unten hinzugefügt, aber das Dropdown zeigt immer noch den vollen Namen und Nummer an, also es wird nicht zugeklappt.</p>
+<p>Die Schüler-Suche funktioniert über eine sogenannte <code translate="no" v-pre>asynchrone Anfrage (Fetch-Request)</code>. Dabei wird im Hintergrund eine Anfrage an den Server gesendet, während die Website weiterhin normal bedienbar bleibt. Die Seite muss also nicht neu geladen werden. Das Ergebnis der Suche kommt erst ein wenig später vom Server zurück.</p>
+<p>Und genau das war das Problem. Weil, wenn während oder kurz nach der Bestätigung mit Enter noch eine Suchanfrage im Hintergrund fertig wurde, kann diese das Dropdown erneut triggern, obwohl der Schüler bereits ausgewählt und das Suchfeld geschlossen oder geleert worden ist. Das hat dann gemacht, dass der ausgewählte Schüler zwar korrekt unten angezeigt wurde, aber gleichzeitig noch im Dropdown sichtbar geblieben ist.
+Ich habe einfach eine zusätzliche Kontrolle eingebaut, sodass veraltete Suchantworten ignoriert werden. Außerdem wird das Dropdown nach der Auswahl eines Schülers geleert und geschlossen.</p>
+<p>TO-DO:</p>
+<ul>
+<li>Hinzufügen, wenn Schüler schon in der Liste ausgewählt und man möchte ihn nochmal hinzufügen, soll kommen &quot;Schüler schon ausgewählt&quot; oder so irgendwie. -&gt; weil derzeit kann man halt dann einfach nur nicht draufdrücken bzw. Schüler wird gar nicht erst angezeigt mehr.</li>
+<li>später auswählbar machen ob man Gutschein erstmals nur approven will oder direkt absenden</li>
+</ul>
 
                 
                 <!-- Required only on API pages -->

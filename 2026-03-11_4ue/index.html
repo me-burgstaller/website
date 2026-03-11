@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.826532062430">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.826540328267">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.1.0">
@@ -27,12 +27,12 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../resources/css/retype.css?v=4.1.0.826532062430" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=4.1.0.826540328267" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=4.1.0.826532062430" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=4.1.0.826540328267" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.1.0.826532062430" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=4.1.0.826532062430" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.1.0.826540328267" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=4.1.0.826540328267" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -222,6 +222,52 @@
         <span>Mehrere Gutscheine gleichzeitig erstellen (für mehrere Schüler mit gleichen Gutschein-Daten)</span>
     </h2>
 </doc-anchor-target>
+<p>Am Anfang konnte beim Erstellen eines Gutscheins nur eine einzelne Schülerin bzw. ein einzelner Schüler ausgewählt werden. In der Praxis kommt es jedoch häufig vor, dass mehrere Schüler/innen für die gleiche Leistung einen Gutschein erhalten sollen (z. B. bei Mithilfe bei Veranstaltungen). Deshalb habe ich diese Funktion erweitert.</p>
+<doc-anchor-target id="auswahl-mehrerer-schülerinnen">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#auswahl-mehrerer-schülerinnen">#</doc-anchor-trigger>
+        <span>Auswahl mehrerer Schüler/innen</span>
+    </h3>
+</doc-anchor-target>
+<p>Die Schülersuche funktioniert weiterhin über das Suchfeld mit Autocomplete. Wenn eine Person ausgewählt wird, wird sie nun zu einer Liste der ausgewählten Schüler/innen hinzugefügt. Diese Liste wird direkt unterhalb des Suchfeldes angezeigt. Dort sieht man alle ausgewählten Personen und kann sie auch wieder entfernen.</p>
+<p>Intern werden die ausgewählten Schüler/innen im Formular als Array gespeichert <code translate="no" v-pre>(student_ids[])</code>. Dadurch können mehrere Schüler-IDs gleichzeitig an den Server übermittelt werden.</p>
+<doc-anchor-target id="erstellung-der-gutscheine">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#erstellung-der-gutscheine">#</doc-anchor-trigger>
+        <span>Erstellung der Gutscheine</span>
+    </h3>
+</doc-anchor-target>
+<p>Im <code translate="no" v-pre>VoucherController</code> habe ich die <code translate="no" v-pre>store()</code>-Methode angepasst. Statt nur einen Gutschein zu erstellen, wird nun für alle ausgewählten Schüler/innen einer erstellt. Jeder Gutschein wird aber mit den gleichen Basisdaten erstellt (Vorlage, Art, Anzahl und Ablaufdatum). Dadurch können Lehrpersonen mehrere Gutscheine gleichzeitig erstellen, ohne das Formular mehrfach ausfüllen zu müssen.</p>
+<doc-anchor-target id="probleme-derzeit-noch">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#probleme-derzeit-noch">#</doc-anchor-trigger>
+        <span>Probleme derzeit noch</span>
+    </h2>
+</doc-anchor-target>
+<doc-anchor-target id="verlust-der-auswahl-der-schüler-beim-anlegen-eines-neuen">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#verlust-der-auswahl-der-schüler-beim-anlegen-eines-neuen">#</doc-anchor-trigger>
+        <span>Verlust der Auswahl der Schüler beim Anlegen eines neuen</span>
+    </h3>
+</doc-anchor-target>
+<p>Wenn bereits mehrere Schüler/innen ausgewählt waren und anschließend eine neue Person angelegt wurde, habe ich folgendes Problem erhalten:
+Nach dem Speichern und der Weiterleitung zurück zur Gutschein-Erstellung war nur der neu erstellte Schüler ausgewählt. Die zuvor ausgewählten Schüler/innen waren verloren. Der Grund dafür war, dass die ausgewählten Schüler im Frontend nur im JavaScript gespeichert waren. Beim Wechsel auf die Seite zur Schülererstellung wurde die Seite jedoch neu geladen und diese Information ging verloren.</p>
+<p>Um dieses Problem zu lösen, habe ich die bereits ausgewählten <code translate="no" v-pre>Schüler-IDs</code> zusätzlich in der URL mitgeschickt (<code translate="no" v-pre>selected_ids</code>). Dadurch kann ich die zuvor ausgewählten Schüler beim Zurückkehren zur Gutschein-Erstellung wiederhergestellen. Nach dem Laden werden diese IDs aus der URL gelesen und die entsprechenden Schüler automatisch wieder zur Auswahl hinzugefügt.</p>
+<doc-anchor-target id="schüler-erscheinen-wieder-nach-dem-entfernen">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#schüler-erscheinen-wieder-nach-dem-entfernen">#</doc-anchor-trigger>
+        <span>Schüler erscheinen wieder nach dem Entfernen</span>
+    </h3>
+</doc-anchor-target>
+<p>Ein weiteres Problem trat auf, wenn alle ausgewählten Schüler/innen wieder entfernt wurden. Habe ich getestet, ob ich Formular ohne Schüler abschicken kann. Natürlich trat Validierungsfehler auf, aber irgendwie wurden die zuvor ausgewählten Schüler wieder hereingeladen, weil sie ja in der URL gespeichert waren.</p>
+<p>Um dieses Problem zu lösen, habe ich nach dem Wiederherstellen der Schüler die URL automatisch bereinigt. Dadurch werden die Parameter aus der Adresszeile entfernt und die Seite hat wieder eine „saubere“ URL. Somit ist das Problem nun gelöst.</p>
+<doc-anchor-target id="doppelte-fehlermeldung">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#doppelte-fehlermeldung">#</doc-anchor-trigger>
+        <span>Doppelte Fehlermeldung</span>
+    </h3>
+</doc-anchor-target>
+<p>Zusätzlich wurde die Fehlermeldung „Bitte wählen Sie mindestens eine Schülerin oder einen Schüler aus.“ zweimal angezeigt. Einmal ganz oben auf der Seite und einmal direkt unter der Schülerauswahl. Die Ursache war, dass die Seite eine globale Fehlerliste/meldung hatte <code translate="no" v-pre>($errors-&gt;any())</code> und auch eine feldspezifische Fehlermeldung <code translate="no" v-pre>(@error('student_ids'))</code>. Dadurch wurde derselbe Fehler zweimal ausgegeben. Da es für die Benutzer übersichtlicher ist, wenn die Fehlermeldung direkt beim betroffenen Feld angezeigt wird, habe ich die globale Fehlerliste (die immer ganz oben angezeigt worden wäre) entfernt.</p>
 
                 
                 <!-- Required only on API pages -->

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825940681695">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.826532062430">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.1.0">
@@ -27,11 +27,11 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../resources/css/retype.css?v=4.1.0.825940681695" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=4.1.0.826532062430" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=4.1.0.825940681695" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=4.1.0.826532062430" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.1.0.825940681695" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.1.0.826532062430" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -301,15 +301,17 @@ Die <code translate="no" v-pre>create</code>-Funktion zeigt das Formular zum Anl
 </doc-anchor-target>
 <p>In der Gutscheinübersicht werden unter anderem der Zeitpunkt der Ausstellung sowie ein mögliches Ablaufdatum angezeigt. Standardmäßig gibt Laravel diese Werte als vollständigen Zeitstempel aus, zum Beispiel 2026-03-04 08:23:44. Für die Benutzeroberfläche ist jedoch eine einfachere Darstellung wie 04.03.2026 übersichtlicher.</p>
 <p>Damit das Datum formatiert werden kann, muss Laravel wissen, dass es sich bei diesen Feldern um Datumswerte handelt. Deshalb habe ich im <code translate="no" v-pre>Voucher</code> Model <code translate="no" v-pre>Casts</code> definiert. Dadurch werden die Werte automatisch als Datum interpretiert.</p>
-<p>protected $casts = [
-&#x27;issued_at&#x27; =&gt; &#x27;datetime&#x27;,
-&#x27;approved_at&#x27; =&gt; &#x27;datetime&#x27;,
-&#x27;sent_at&#x27; =&gt; &#x27;datetime&#x27;,
-&#x27;redeemed_at&#x27; =&gt; &#x27;datetime&#x27;,
-&#x27;expires_at&#x27; =&gt; &#x27;date&#x27;,
-];</p>
-<p>Anschließend können die Datumswerte direkt in der View formatiert werden. In der Datei <code translate="no" v-pre>vouchers.index</code> muss man zum Beispiel so schreiben:</p>
 <div id="datumsformat-ändern-code-1" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-none"><code v-pre class="language-none">protected $casts = [
+    'issued_at' =&gt; 'datetime',
+    'approved_at' =&gt; 'datetime',
+    'sent_at' =&gt; 'datetime',
+    'redeemed_at' =&gt; 'datetime',
+    'expires_at' =&gt; 'date',
+];</code></pre>
+</doc-codeblock></div>
+<p>Anschließend können die Datumswerte direkt in der View formatiert werden. In der Datei <code translate="no" v-pre>vouchers.index</code> muss man zum Beispiel so schreiben:</p>
+<div id="datumsformat-ändern-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none"><code v-pre class="language-none">{{ $voucher-&gt;issued_at?-&gt;format('d.m.Y') }}</code></pre>
 </doc-codeblock></div>
 <p>Dadurch wird aus dem ursprünglichen Zeitstempel das deutsche Datumsformat also Tag.Monat.Jahr, zum Beispiel 04.03.2026.</p>
@@ -342,7 +344,7 @@ Die <code translate="no" v-pre>create</code>-Funktion zeigt das Formular zum Anl
             
                 <nav id="retype-nextprev" class="print:hidden flex mt-14">
                     <div class="w-1/2">
-                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../2026-02-25_4ue/">
+                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../2026-02-25_4ue/">
                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                             <span>
                                 <span class="block text-xs font-normal text-base-text-muted">Previous</span>
@@ -352,6 +354,13 @@ Die <code translate="no" v-pre>create</code>-Funktion zeigt das Formular zum Anl
                     </div>
             
                     <div class="w-1/2">
+                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../2026-03-11_4ue/">
+                            <span>
+                                <span class="block text-xs font-normal text-right text-base-text-muted">Next</span>
+                                <span class="block mt-1">2026-​03-​11 - 4 UE</span>
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                        </a>
                     </div>
                 </nav>
             </footer>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.826544005906">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.826545508947">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.1.0">
@@ -27,12 +27,12 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../resources/css/retype.css?v=4.1.0.826544005906" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=4.1.0.826545508947" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=4.1.0.826544005906" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=4.1.0.826545508947" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.1.0.826544005906" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=4.1.0.826544005906" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.1.0.826545508947" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=4.1.0.826545508947" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -353,12 +353,32 @@ Das Problem habe ich einfach in meiner bereits vorhandenen <code translate="no" 
             ....
 }</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="to-do">
+<doc-anchor-target id="gutscheine-ablaufdatum-expired">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#to-do">#</doc-anchor-trigger>
-        <span>TO-DO:</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#gutscheine-ablaufdatum-expired">#</doc-anchor-trigger>
+        <span>Gutscheine Ablaufdatum (expired)</span>
     </h2>
 </doc-anchor-target>
+<p>Bei Gutscheinen gibt es auch ein Ablaufdatum (<code translate="no" v-pre>expires_at</code>). Ein Gutschein soll als abgelaufen angezeigt werden, wenn das Ablaufdatum bereits in der Vergangenheit liegt. Dafür habe ich die Anzeige in der <code translate="no" v-pre>vouchers/index.blade.php</code> angepasst. Innerhalb der <code translate="no" v-pre>foreach-Schleife</code> wird nun zuerst überprüft, ob ein Gutschein abgelaufen ist. Das passiert so:</p>
+<div id="gutscheine-ablaufdatum-expired-code-1" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-php"><code v-pre class="language-php">@php
+    $isExpired = $voucher-&gt;expires_at &amp;&amp; $voucher-&gt;expires_at-&gt;isPast();
+    $displayStatus = $isExpired ? 'expired' : $voucher-&gt;status;
+@endphp</code></pre>
+</doc-codeblock></div>
+<p>Wenn das Ablaufdatum bereits vorbei ist, wird der Status intern auf expired gesetzt. Dadurch wird in der Tabelle automatisch der Status Abgelaufen angezeigt und die entsprechende Statusfarbe verwendet. Zusätzlich habe ich auch die Aktionen angepasst. Wenn ein Gutschein abgelaufen ist, sollen keine Aktionen wie „Versenden“ oder „Einlösen“ mehr möglich sein. Deshalb wird bei den Buttons zusätzlich geprüft, ob der Gutschein nicht abgelaufen ist. Damit werden Aktionen nur angezeigt, wenn der Gutschein noch gültig ist.</p>
+<doc-anchor-target id="testen-des-ablaufdatums">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#testen-des-ablaufdatums">#</doc-anchor-trigger>
+        <span>Testen des Ablaufdatums</span>
+    </h3>
+</doc-anchor-target>
+<p>Damit ich das testen konnte, musste ich kurz die Validierung beim Erstellen eines Gutscheins anpassen. Normalerweise darf ein Gutschein nämlich kein Ablaufdatum in der Vergangenheit haben. Die Regel dafür ist im VoucherController in der <code translate="no" v-pre>store()</code>-Methode definiert:</p>
+<div id="testen-des-ablaufdatums-code-1" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-php"><code v-pre class="language-php">'expires_at' =&gt; ['required', 'date', 'after:today'],</code></pre>
+</doc-codeblock></div>
+<p>Für den Test habe ich diese Regel kurz auskommentiert, damit ich auch Gutscheine mit einem alten Datum erstellen konnte. Dadurch konnte ich einen Gutschein mit einem Datum in der Vergangenheit erstellen und überprüfen, ob der Status korrekt als Abgelaufen angezeigt wird und keine Aktionen mehr möglich sind. Das hat alles funktioniert, deshalb habe ich Validierung wieder aktiviert.</p>
+<p>TO-DO:</p>
 <ul>
 <li>später auswählbar machen ob man Gutschein erstmals nur approven will oder direkt absenden</li>
 </ul>

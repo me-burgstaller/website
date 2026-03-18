@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.3.0.827136961976">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.3.0.827146015150">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.3.0">
@@ -33,11 +33,11 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../resources/css/retype.css?v=4.3.0.827136961976" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=4.3.0.827146015150" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=4.3.0.827136961976" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=4.3.0.827146015150" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=4.3.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.3.0.827136961976" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.3.0.827146015150" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -182,6 +182,33 @@ Neben der Änderung im Controller habe ich auch die Benutzeroberfläche angepass
 <p>Ebenso habe ich neuen User angelegt - also einen <code translate="no" v-pre>teacher</code>, um es auszutesten, ob es funktioniert. Den ersten Benutzer also Admin von damals, habe ich nun vorübergehend <code translate="no" v-pre>director</code>-<code translate="no" v-pre>role</code> gegeben.</p>
 <p>In der Gutscheinübersicht werden die Buttons nun abhängig von der Rolle angezeigt. So werden beispielsweise die Funktionen zum Genehmigen nur für Benutzer mit der Rolle <code translate="no" v-pre>director</code> angezeigt. Lehrer sehen diese Buttons nicht mehr und können somit auch nicht versuchen, diese Aktion auszuführen.</p>
 <p>Die individuelle Anzeige erfolgt direkt im <code translate="no" v-pre>index.blade-Template</code> durch eine Abfrage der Benutzerrolle <code translate="no" v-pre>(auth()-&gt;user()-&gt;isDirector())</code>.</p>
+<h2 id="rollenbasierte-berechtigungen-für-aktionen">Rollenbasierte Berechtigungen für Aktionen</h2>
+<p>Neben der Anzeige der Buttons wurde auch die Logik im Backend angepasst, sodass Aktionen abhängig von der Benutzerrolle ausgeführt werden können. (Genehmigen, ...)</p>
+<p>Im <code translate="no" v-pre>User</code>-Model wurden dafür eigene Methoden definiert (z. B. <code translate="no" v-pre>canApproveVouchers()</code>, <code translate="no" v-pre>canSendVouchers()</code>, <code translate="no" v-pre>canRedeemVouchers()</code>). Diese prüfen, welche Aktionen ein Benutzer durchführen darf.</p>
+<p>Im <code translate="no" v-pre>VoucherController</code> werden diese Berechtigungen nun vor jeder Aktion überprüft. Wenn ein Benutzer eine Aktion machen möchte, für die er keine Berechtigung hat, wird der Zugriff mit einem Fehler (403) blockiert. Dadurch ist sichergestellt, dass auch bei direktem Aufruf einer Route keine unberechtigten Änderungen durchgeführt werden können. Also quasi zusätzlich nochmal geblocked.</p>
+<ul>
+<li>Direktor kann alle Aktionen durchführen (inkl. Genehmigen)</li>
+<li>Sekretariat kann dezeit alles bis auf genehmigen (aber es ist einstellbar, ob Sekretariat auch genehmigen darf)</li>
+<li>Lehrkräfte können Gutscheine versenden und einlösen, aber nicht genehmigen</li>
+<li>Die Berechtigungen sind zentral definiert und können später einfach angepasst werden</li>
+</ul>
+<h2 id="mehrere-gutscheine-auswählen-und-dann-aktion-durchführen">Mehrere Gutscheine auswählen und dann Aktion durchführen</h2>
+<p>Ich habe, um die Benutzerfreundlichkeit zu verbessern, die Gutscheinübersicht um eine Funktion erweitert, mit der man mehrere Gutscheine gleichzeitig bearbeiten kann also wo man mehrere auswählen kann.</p>
+<p>Dafür wurde eine Auswahlmöglichkeit mit Checkboxen ergänzt. Benutzer können nun mehrere Gutscheine markieren und anschließend eine gemeinsame Aktion auswählen (z. B. Genehmigen, Versenden oder Einlösen). Die gewählte Aktion wird dann auf alle ausgewählten Gutscheine angewendet.</p>
+<p>Diese Funktion erfolgt im <code translate="no" v-pre>VoucherController</code> in der Methode <code translate="no" v-pre>selectionAction()</code>. Ebenso habe ich eine neue Route in <code translate="no" v-pre>web.php</code> hinzugefügt. In der Methode werden alle ausgewählten Gutscheine durchlaufen und abhängig von der gewählten Aktion sowie dem aktuellen Status verarbeitet. Das heisst, wenn der vorherige Status passend mit dem Status ist, der jetzt durchgeführt werden soll passt es. Wenn aber der Gutschein zum Beispiel schon eingelöst ist und ich wähle ihn jetzt aus und drücke auf Genehmigen, dann wird die Aktion nicht durchgeführt.</p>
+<p>Also es wird zusätzlich überprüft:</p>
+<ul>
+<li>ob der Gutschein bereits abgelaufen ist (diese werden übersprungen)</li>
+<li>ob der aktuelle Status zur gewählten Aktion passt (z. B. Genehmigen nur bei pending)</li>
+<li>Gutscheine, die diese Bedingungen nicht erfüllen, werden nicht verändert.</li>
+</ul>
+<p>Vorteile dabei sind halt:</p>
+<ul>
+<li>mehrere Gutscheine können gleichzeitig bearbeitet werden</li>
+<li>nur passende Gutscheine werden verändert</li>
+<li>unpassende oder bereits bearbeitete Gutscheine bleiben unverändert</li>
+<li>die Anzahl der erfolgreich bearbeiteten Gutscheine wird als Rückmeldung angezeigt (oben)</li>
+</ul>
 
                 
                 <!-- Required only on API pages -->

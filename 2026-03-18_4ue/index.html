@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.3.0.827146015150">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.3.0.827150282765">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.3.0">
@@ -33,11 +33,11 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../resources/css/retype.css?v=4.3.0.827146015150" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=4.3.0.827150282765" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=4.3.0.827146015150" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=4.3.0.827150282765" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=4.3.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.3.0.827146015150" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.3.0.827150282765" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -208,6 +208,30 @@ Neben der Änderung im Controller habe ich auch die Benutzeroberfläche angepass
 <li>nur passende Gutscheine werden verändert</li>
 <li>unpassende oder bereits bearbeitete Gutscheine bleiben unverändert</li>
 <li>die Anzahl der erfolgreich bearbeiteten Gutscheine wird als Rückmeldung angezeigt (oben)</li>
+</ul>
+<h2 id="rückgängig-machen-von-aktionen">Rückgängig machen von Aktionen</h2>
+<p>Falls etwas versehentlich genehmigt wurde, soll es die Möglichkeit geben, dass man es wieder rückgängig machen kann.
+Rückgängig machen von:</p>
+<ul>
+<li>&quot;Genehmigt&quot; zu &quot;Ausstehend&quot;-&gt; soll Direktor können</li>
+<li>&quot;Eingelöst&quot; zu &quot;Versendet&quot; -&gt; sollen auch Sekretariat und Direktor können
+Aber Achtung hier nicht nochmal Gutschein losschicken, sondern nur Status soll geupdated werden, von &quot;Versendet&quot; auf &quot;Genehmigt&quot; soll nicht möglich sein, weil der Gutschein schon ausgesendet wurde.</li>
+</ul>
+<p>Es ist nun möglich einen Gutschein oder mehrere auszuwählen und oben beim Aktion-Dropdown, kann man dann auswählen &quot;Genehmigung rückgängig&quot; und &quot;Einlösung rückgängig&quot;.</p>
+<p>Ebenso wäre es sinnvoll, dass es die Möglichkeit gibt -&gt; Sekretariat und Direktor -&gt; Gutscheine löschen. Es muss aber ein Hard-Delete sein, damit es auch aus der Datenbank gelöscht wird.</p>
+<p>In der Methode <code translate="no" v-pre>selectionAction()</code> wurde die neue Aktion <code translate="no" v-pre>delete</code> dazugefügt. Wenn diese ausgewählt wird, werden die markierten Gutscheine direkt mit <code translate="no" v-pre>$voucher-&gt;delete()</code> aus der Datenbank entfernt. Zusätzlich wird überprüft, ob der Benutzer die Berechtigung zum Löschen hat. Nur Direktor und Sekretariat dürfen Gutscheine löschen. Die Auswahl erfolgt wie bei den anderen Aktionen über die Checkboxen in der Übersicht.</p>
+<p>todo:</p>
+<ul>
+<li><p>Warteschlange (queue)-&gt; versenden: Also wenn man von &quot;Ausstehend&quot; auf &quot;Genehmigt&quot; drückt, soll Funktion möglich sein, dass der Gutschein an diesem datum und um diese UHrzeit losgeschickt wird (automatisch), aber es ist nur eine Funktion also keine Pflicht das man da eine Uhrzeit und ein Datum auswählt -&gt; es soll auch Button geben wo &quot;manuell&quot; steht, damit man selber später irgendwann gutschein versendet</p>
+</li>
+<li><p>in gutscheinanzeige auch suche möglich (nach gutscheinnummer, nach schülername, matrikelnummer oder ausstelldatum, oder status also eigentlich auswahlmöglichkeit nach allen daten zu suchen)</p>
+</li>
+<li><p>Individuelle Übersicht, wo man schüler auswählen kann, von denen der Lehrer etwas sieht und zusätzlich übersicht für die person, wo sie gutscheine sieht die sie ausgestellt hat</p>
+</li>
+<li><p>Gutscheinanzeige dann später in view einbauen</p>
+</li>
+<li><p>TC PDF -&gt; PDF machen</p>
+</li>
 </ul>
 
                 

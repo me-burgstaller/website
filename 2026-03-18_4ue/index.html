@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.3.0.827132905806">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.3.0.827134203103">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.3.0">
@@ -12,6 +12,7 @@
     <!-- Primary Meta Tags -->
     <title>2026-03-18</title>
     <meta name="title" content="2026-03-18">
+    <meta name="description" content="Beispiel: Eine Woche vor dem letzten Schultag möchten der Direktor und das Sekretariat alle Gutscheine für die Schüler vorbereiten, jedoch möchten sie die">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://burgstaller.2526.rasser-unterricht.at/2026-03-18_4ue/">
@@ -20,6 +21,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://burgstaller.2526.rasser-unterricht.at/2026-03-18_4ue/">
     <meta property="og:title" content="2026-03-18">
+    <meta property="og:description" content="Beispiel: Eine Woche vor dem letzten Schultag möchten der Direktor und das Sekretariat alle Gutscheine für die Schüler vorbereiten, jedoch möchten sie die">
     <meta property="og:site_name" content="Melissa Burgstaller">
     <meta property="og:locale" content="en_US">
 
@@ -27,14 +29,15 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://burgstaller.2526.rasser-unterricht.at/2026-03-18_4ue/">
     <meta name="twitter:title" content="2026-03-18">
+    <meta name="twitter:description" content="Beispiel: Eine Woche vor dem letzten Schultag möchten der Direktor und das Sekretariat alle Gutscheine für die Schüler vorbereiten, jedoch möchten sie die">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../resources/css/retype.css?v=4.3.0.827132905806" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=4.3.0.827134203103" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=4.3.0.827132905806" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=4.3.0.827134203103" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=4.3.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.3.0.827132905806" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.3.0.827134203103" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -139,7 +142,12 @@
     <div class="flex items-center shrink-0">Published&nbsp;<span>2026-03-18</span></div>
 </div>
 
-<h2 id="test">test</h2>
+<h2 id="auswählbar-machen-ob-gutschein-erstmal-nur-genehmigt-oder-direkt-genehmigt-und-verschickt-werden-soll">Auswählbar machen, ob Gutschein erstmal nur genehmigt oder direkt genehmigt und verschickt werden soll</h2>
+<p>Beispiel: Eine Woche vor dem letzten Schultag möchten der Direktor und das Sekretariat alle Gutscheine für die Schüler vorbereiten, jedoch möchten sie die ganzen Gutscheine dann erst am letzten Schultag aussenden (noch nicht jetzt). (= nur genehmigen)</p>
+<p>Beispiel: Ein Schüler hat heute bei einer Veranstaltung mitgeholfen und soll deshalb einen Gutschein für einen Nachmittag erhalten. Der Gutschein soll erstellt werden. Danach soll er direkt genehmigt und abgesendet werden. (= mit einem Klick)</p>
+<h3 id="umsetzung">Umsetzung</h3>
+<p>In der <code translate="no" v-pre>approve()</code>-Methode wurde die Logik deshalb erweitert. Neben der normalen Genehmigung wird nun zusätzlich geprüft, ob beim Absenden des Formulars der Parameter <code translate="no" v-pre>send_now</code> übergeben wurde.(= direkt absenden) Dieser wird über einen versteckten Input im Formular mitgeschickt. Also grob zusammengefasst, gibt es nun 2 Buttons.</p>
+<p>Wenn dieser Parameter vorhanden ist, wird der Gutschein nicht nur auf <code translate="no" v-pre>approved</code>, sondern direkt auf <code translate="no" v-pre>sent</code> gesetzt. Zusätzlich wird auch der Versandzeitpunkt (<code translate="no" v-pre>sent_at</code>) gespeichert. Die Genehmigungsdaten (<code translate="no" v-pre>approved_by_user_id</code> und <code translate="no" v-pre>approved_at</code>) werden in beiden Fällen gesetzt.</p>
 
                 
                 <!-- Required only on API pages -->

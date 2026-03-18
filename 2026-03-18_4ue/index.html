@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.3.0.827134203103">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.3.0.827136961976">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.3.0">
@@ -33,11 +33,11 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../resources/css/retype.css?v=4.3.0.827134203103" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=4.3.0.827136961976" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=4.3.0.827134203103" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=4.3.0.827136961976" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=4.3.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.3.0.827134203103" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=4.3.0.827136961976" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -148,6 +148,40 @@
 <h3 id="umsetzung">Umsetzung</h3>
 <p>In der <code translate="no" v-pre>approve()</code>-Methode wurde die Logik deshalb erweitert. Neben der normalen Genehmigung wird nun zusätzlich geprüft, ob beim Absenden des Formulars der Parameter <code translate="no" v-pre>send_now</code> übergeben wurde.(= direkt absenden) Dieser wird über einen versteckten Input im Formular mitgeschickt. Also grob zusammengefasst, gibt es nun 2 Buttons.</p>
 <p>Wenn dieser Parameter vorhanden ist, wird der Gutschein nicht nur auf <code translate="no" v-pre>approved</code>, sondern direkt auf <code translate="no" v-pre>sent</code> gesetzt. Zusätzlich wird auch der Versandzeitpunkt (<code translate="no" v-pre>sent_at</code>) gespeichert. Die Genehmigungsdaten (<code translate="no" v-pre>approved_by_user_id</code> und <code translate="no" v-pre>approved_at</code>) werden in beiden Fällen gesetzt.</p>
+<h2 id="geplante-rollen">Geplante Rollen</h2>
+<p>Direktor: sieht alle Gutscheine, kann alles, kann genehmigen</p>
+<p>Sekretariat: sieht alle Gutscheine, kann fast alles, Genehmigen soll optional einstellbar sein</p>
+<p>Lehrer: sieht nur die selbst ausgestellten Gutscheine, kann Gutscheine erstellen, darf nicht genehmigen, versenden eventuell einstellbar, einlösen darf er</p>
+<h2 id="wie-setze-ich-die-verschiedenen-übersichten-am-besten-um-idee-dahinter">Wie setze ich die verschiedenen Übersichten am Besten um? (Idee dahinter)</h2>
+<p>Ich habe überlegt, wie die Sichtbarkeit und Verwaltung der Gutscheine für verschiedene Benutzergruppen umgesetzt werden kann. Dabei habe ich mehrere Ideen betrachtet und bewertet.</p>
+<h3 id="klassenlogik">Klassenlogik</h3>
+<p>Zunächst war die Idee, die Sichtbarkeit der Gutscheine über eine Klassenlogik zu steuern. Diese hätte bedeutet, dass Lehrkräfte nur Gutscheine von Schülern ihrer Klasse sehen können. Diesen Ansatz habe ich jedoch gleich wieder vergessen, da sich Klassen im Schulalltag regelmäßig ändern können (z. B. durch Sitzenbleiben oder Wechsel von Klassenvorständen). Dadurch wäre eine Pflege und Aktualisierung der Daten notwendig gewesen, was das System unnötig schwierig und aufwendig gemacht hätte.</p>
+<h3 id="lehrerkraft-beim-erstellen-hinterlegen">Lehrerkraft beim Erstellen hinterlegen</h3>
+<p>Eine weitere Überlegung war, beim Erstellen eines Gutscheins eine zuständige Lehrkraft zu hinterlegen, sodass diese den Gutschein in ihrer Übersicht sehen kann. Zum Beispiel, wenn das Sekretariat am Schulende die Gutscheine erstellt, sollen sie einfach in einem Feld eingeben, welchen Lehrer die Gutscheine angezeigt werden sollen. Dieser Ansatz hätte aber vor allem bei der Erstellung mehrerer Gutscheine gleichzeitig zu Problemen geführt, da dabei oft Schüler aus unterschiedlichen Klassen betroffen sind. Dann wäre die Erstellung nicht mehr so einfach und man kann nicht Gutscheine für mehrere Schüler aus verschiedenen Klassen auf einmal machen.</p>
+<h3 id="meine-gewählte-lösung">Meine gewählte Lösung</h3>
+<p>Die Sichtbarkeit der Gutscheine soll sich nach der Benutzerrolle sowie einer individuell einstellbaren Ansicht richten:</p>
+<ul>
+<li>Direktor: sieht alle Gutscheine und kann alle Aktionen durchführen (inklusive Genehmigen)</li>
+<li>Sekretariat: sieht alle Gutscheine und kann nahezu alle Aktionen durchführen; die Berechtigung zum Genehmigen soll optional einstellbar sein (weil ich weiß gerade nicht, was der Direktor sich wünscht, wie er das System haben will)</li>
+<li>Lehrkräfte: können grundsätzlich Gutscheine einsehen, die Übersicht soll jedoch durch eine individuelle Auswahl von Schülern gesteuert werden</li>
+</ul>
+<p>Für Lehrer ist gedacht, dass sie in ihrer Oberfläche selbst festlegen können, welche Schüler in der Gutscheinübersicht angezeigt werden sollen.
+Ähnlich wie bei einer Teams-Klasse, also wenn Lehrer eine Teams-Klasse erstellen, wählen sie ja auch Schüler aus, die sie in ihrem System haben wollen. Diese Auswahl/LIste an Schülern kann gespeichert und jederzeit angepasst werden. Dadurch entsteht eine persönliche Arbeitsansicht, ohne dass eine feste Zuordnung zwischen Lehrkraft und Schüler notwendig ist. Jeder Lehrer kann jeden Schüler einsehen. Ebenso kann jeder Lehrer selbst entscheiden, ob er alle Schüler auswählen will - da muss er halt die Schüler dann hinzufügen, die im System noch nicht eingespeichert sind, weil sie derzeit keinen Gutschein haben. Oder der Lehrer geht beim Erstellen dieser Ansichtsliste die Klassenliste durch und gibt nach und nach die Schüler ein -&gt; und nimmt halt nur die, die einen Gutschein haben und im System sind. Logischer wäre eher -&gt; alle Schüler auswählen und nicht vorhandene gleich hinzufügen, weil wenn ein Schüler bei einem Event von einem anderen Lehrer Gutschein bekommt, dann sieht der KV den Gutschein nicht, weil er den Schüler vielleicht gar nicht in der Liste ausgewählt hat (weil er ja zuvor noch nicht im System war). Problem ist das natürlich auch keines, weil das Einlösen kann der KV dann trotzdem machen, ebenso kann der KV den Schüler im System suchen und schauen, ob da wirklich Gutschein vorhanden ist.</p>
+<h4 id="vorteile-der-lösung">Vorteile der Lösung</h4>
+<p>Diese Lösung bietet mehrere Vorteile:</p>
+<ul>
+<li>keine Abhängigkeit von Klassenstrukturen</li>
+<li>keine Probleme bei Änderungen im Schulalltag</li>
+<li>flexible Nutzung durch mehrere Lehrkräfte gleichzeitig</li>
+<li>übersichtlichere Darstellung durch individuell anpassbare Filter</li>
+<li>geringerer Wartungsaufwand im Vergleich zu fixen Zuordnungen</li>
+</ul>
+<h2 id="rollen-hinzufügen-individuelle-anzeige-aktionen">Rollen hinzufügen (Individuelle Anzeige Aktionen)</h2>
+<p>Bei User-Migration habe ich eh schon <code translate="no" v-pre>role</code> gehabt, deswegen musste ich keine neue Migration mehr machen.
+Neben der Änderung im Controller habe ich auch die Benutzeroberfläche angepasst. Ziel war es, dass Benutzer nur die Aktionen sehen, die sie tatsächlich durchführen dürfen. Vorher wurde ja genehmigen angezeigt (auch bei Lehrer) und wenn sie draufgedrückt haben, kamen sie halt zu Forbidden Page.</p>
+<p>Ebenso habe ich neuen User angelegt - also einen <code translate="no" v-pre>teacher</code>, um es auszutesten, ob es funktioniert. Den ersten Benutzer also Admin von damals, habe ich nun vorübergehend <code translate="no" v-pre>director</code>-<code translate="no" v-pre>role</code> gegeben.</p>
+<p>In der Gutscheinübersicht werden die Buttons nun abhängig von der Rolle angezeigt. So werden beispielsweise die Funktionen zum Genehmigen nur für Benutzer mit der Rolle <code translate="no" v-pre>director</code> angezeigt. Lehrer sehen diese Buttons nicht mehr und können somit auch nicht versuchen, diese Aktion auszuführen.</p>
+<p>Die individuelle Anzeige erfolgt direkt im <code translate="no" v-pre>index.blade-Template</code> durch eine Abfrage der Benutzerrolle <code translate="no" v-pre>(auth()-&gt;user()-&gt;isDirector())</code>.</p>
 
                 
                 <!-- Required only on API pages -->

@@ -1,0 +1,11 @@
+﻿# Gutscheinsystem Grundkonzept
+
+> An der HAK Zell am See sollen Schüler und Schülerinnen für besondere Leistungen oder Engagement belohnt werden können. Wenn jemand einen guten oder sogar einen ausgezeichneten Erfolg im Jahreszeugnis erreicht, soll er/sie einen Gutschein für einen oder mehrere freie Unterrichtstage erhalten.
+
+- [Gutscheinsystem Grundkonzept](https://burgstaller.2526.rasser-unterricht.at/index.md): Gutscheinsystem Grundkonzept
+- [2026-02-18](https://burgstaller.2526.rasser-unterricht.at/2026-02-18_3ue.md): Mein Laravel-Projekt habe ich lokal im Herd-Ordner erstellt. Dabei wurde folgender Befehl verwendet:
+- [2026-02-25](https://burgstaller.2526.rasser-unterricht.at/2026-02-25_4ue.md): Ich habe mit der Umsetzung der Benutzerstruktur angefangen. Ich habe zwei neue Felder zu users hinzugefügt:
+- [2026-03-04](https://burgstaller.2526.rasser-unterricht.at/2026-03-04_4ue.md): Nach Absprache mit Herrn Professor Rasser:
+- [2026-03-11](https://burgstaller.2526.rasser-unterricht.at/2026-03-11_4ue.md): TO-DO:
+- [2026-03-18](https://burgstaller.2526.rasser-unterricht.at/2026-04-08_4ue.md): Ich wollte ermöglichen, dass Gutscheine nicht nur sofort versendet werden können, sondern auch zu einem bestimmten Zeitpunkt automatisch verschickt werden.
+- [2026-03-18](https://burgstaller.2526.rasser-unterricht.at/2026-03-18_4ue.md): Beispiel: Eine Woche vor dem letzten Schultag möchten der Direktor und das Sekretariat alle Gutscheine für die Schüler vorbereiten, jedoch möchten sie die ganzen Gutscheine dann erst am letzten Schultag aussenden (noch nicht jetzt).

@@ -9,3 +9,4 @@
 - [2026-03-11](https://burgstaller.2526.rasser-unterricht.at/2026-03-11_4ue.md): TO-DO:
 - [2026-03-18](https://burgstaller.2526.rasser-unterricht.at/2026-04-08_4ue.md): Ich wollte ermöglichen, dass Gutscheine nicht nur sofort versendet werden können, sondern auch zu einem bestimmten Zeitpunkt automatisch verschickt werden.
 - [2026-03-18](https://burgstaller.2526.rasser-unterricht.at/2026-03-18_4ue.md): Beispiel: Eine Woche vor dem letzten Schultag möchten der Direktor und das Sekretariat alle Gutscheine für die Schüler vorbereiten, jedoch möchten sie die ganzen Gutscheine dann erst am letzten Schultag aussenden (noch nicht jetzt).
+- [Arbeit von Zuhause - 13.04.2026](https://burgstaller.2526.rasser-unterricht.at/2026-04-13.md): Ich habe den E-Mail Versand in meinem Gutscheinsystem umgesetzt.
